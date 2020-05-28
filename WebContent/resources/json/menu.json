@@ -1,0 +1,71 @@
+{
+  "returnCode":"0",
+  "returnMessage":"操作成功",
+  "total":0,
+  "data":{
+    "allSecondMenu": [
+      {
+        "id": "1607",
+        "pid": "1",
+        "moduleName": "用户管理",
+        "moduleCode": "USERMANAGE",
+        "moduleType": "",
+        "moduleTarget": "navTab",
+        "moduleIcon": "icon-user",
+        "moduleUrl": ""
+      },
+      {
+        "id": "1608",
+        "pid": "1",
+        "moduleName": "商品管理",
+        "moduleCode": "GOODSINFOMANAGE",
+        "moduleType": "",
+        "moduleTarget": "navTab",
+        "moduleIcon": "icon-shopping-cart",
+        "moduleUrl": "goodsInfo/goodsInfoList"
+      },
+      {
+        "id": "1609",
+        "pid": "1",
+        "moduleName": "公告管理",
+        "moduleCode": "ANNOUNCEMENTINFOMANAGE",
+        "moduleType": "",
+        "moduleTarget": "navTab",
+        "moduleIcon": "icon-volume-up",
+        "moduleUrl": "announcement/announcementInfoList"
+      },
+      {
+        "id": "1610",
+        "pid": "1",
+        "moduleName": "订单管理",
+        "moduleCode": "ORDERINFOMANAGE",
+        "moduleType": "",
+        "moduleTarget": "navTab",
+        "moduleIcon": "icon-th",
+        "moduleUrl": "orderInfo/orderInfoList"
+      }
+    ],
+    "secondMenu_1607": [
+      {
+        "id": "160701",
+        "pid": "1607",
+        "moduleName": "用户管理",
+        "moduleCode": "USERMANAGE",
+        "moduleType": "",
+        "moduleTarget": "navTab",
+        "moduleIcon": "icon-reorder",
+        "moduleUrl": "userInfo/userInfoList"
+      },
+      {
+        "id": "160702",
+        "pid": "1607",
+        "moduleName": "实名库管理",
+        "moduleCode": "REALNAME",
+        "moduleType": "",
+        "moduleTarget": "navTab",
+        "moduleIcon": "icon-reorder",
+        "moduleUrl": "userInfo/realNameList"
+      }
+    ]
+  }
+}

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee"  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+    	classpath:spring.xml,
+    	classpath:spring-quartz.xml
+    </param-value>
+  </context-param>
+  <filter>
+    <description>characterEncodingFilter</description>
+    <filter-name>encodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <description>characterEncoding</description>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>encodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>HttpPutFormContentFilter</filter-name>
+    <filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>HttpPutFormContentFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <listener>
+    <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+  </listener>
+  <listener>
+    <description>contextLoaderListener</description>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+ <!-- <listener>
+    <description>系统初始化监听器</description>
+    <listener-class>cn.net.colinin.common.listener.InitListener</listener-class>
+  </listener>-->
+
+  <servlet>
+    <description>springMvcServlet</description>
+    <servlet-name>springMvc</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <description>springMvcConfig</description>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:spring-mvc.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>springMvc</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>/index.jsp</welcome-file>
+  </welcome-file-list>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/404.jsp</location>
+  </error-page>
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+  <jsp-config>
+    <!--       JSTL标签-->
+    <taglib>
+      <taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
+      <taglib-location>/WEB-INF/tld/c.tld</taglib-location>
+    </taglib>
+    <!--       JSTL的fmt标签-->
+    <taglib>
+      <taglib-uri>http://java.sun.com/jsp/jstl/fmt</taglib-uri>
+      <taglib-location>/WEB-INF/tld/fmt.tld</taglib-location>
+    </taglib>
+    <!--       JSTL的SQL标签-->
+    <taglib>
+      <taglib-uri>http://java.sun.com/jsp/jstl/sql</taglib-uri>
+      <taglib-location>/WEB-INF/tld/sql.tld</taglib-location>
+    </taglib>
+    <!--JSTL的function标签-->
+    <taglib>
+      <taglib-uri>http://java.sun.com/jsp/jstl/function</taglib-uri>
+      <taglib-location>/WEB-INF/tld/fn.tld</taglib-location>
+    </taglib>
+  </jsp-config>
+</web-app>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+			http://www.springframework.org/schema/tx 
+			http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+			http://www.springframework.org/schema/aop
+			http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+    
+	<!-- 配置主数据源 -->
+	<bean name="MASTER" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="driverClassName" value="${master_master_driverClassName}"/>
+		<property name="url" value="${master_master_jdbc_url}" />
+		<property name="username" value="${master_master_jdbc_username}" />
+		<property name="password" value="${master_master_jdbc_password}" />
+		<!-- 初始化连接大小 -->
+		<property name="initialSize" value="1" />
+		<!-- 连接池最大使用连接数量 -->
+		<property name="maxActive" value="20" />
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle" value="1" />
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="60000" />
+
+		<!--<property name="poolPreparedStatements" value="true" /> 
+		<property name="maxOpenPreparedStatements" value="100"/>
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="33" />-->
+
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="testWhileIdle" value="true" />
+
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="25200000" />
+		<!-- 打开removeAbandoned功能 -->
+		<property name="removeAbandoned" value="true" />
+		<!-- 1800秒，也就是30分钟 -->
+		<property name="removeAbandonedTimeout" value="1800" />
+		<!-- 关闭abanded连接时输出错误日志 -->
+		<property name="logAbandoned" value="true" />
+		<!-- 监控数据库 -->
+		<property name="filters" value="stat" />
+	</bean>
+	<bean id="dataSource" class="cn.net.colin.common.utils.DynamicDataSource">
+		<!-- 通过key-value的形式来关联数据源 -->
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">
+				<entry value-ref="MASTER" key="MASTER"></entry>
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="MASTER">
+		</property>
+	</bean>
+
+	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+	<bean id="sqlSessionFactory" class="cn.net.colin.common.utils.MySqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations">
+            <array>
+				<value>classpath:cn/net/colin/mapping/**/*.xml</value>
+				<!--<value>classpath:cn/net/colin/mapping/*/*/*.xml</value>-->
+
+            </array>
+        </property>
+        <!-- 分页插件-->
+		<property name="plugins">
+			<set>
+				<!--配置pageHelper 分页插件-->
+				<bean class="com.github.pagehelper.PageInterceptor">
+					<property name="properties">
+						<props>
+							<!--方言：oracle,mysql,mariadb,sqlite,hsqldb,postgresql,db2,sqlserver,informix,h2,sqlserver2012,derby-->
+							<prop key="helperDialect">mysql</prop>
+							<prop key="reasonable">true</prop>
+						</props>
+					</property>
+				</bean>
+			</set>
+		</property>
+	</bean>
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+	<bean name="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="cn.net.colin.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+	  <constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager"
+		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 注解方式配置事物 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+</beans>
