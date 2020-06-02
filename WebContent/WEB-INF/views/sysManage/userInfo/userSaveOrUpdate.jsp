@@ -203,6 +203,19 @@
 			</div>
 			<div class="layui-col-xs2">　</div>
 		</div>
+		<!-- 第十四行 -->
+		<div class="layui-row">
+			<div class="layui-col-xs2">　</div>
+			<div class="layui-col-xs8">
+				<div class="layui-form-item">
+					<label class="layui-form-label">注册时间</label>
+					<div class="layui-input-block">
+						<input type="text" id="registerTime" name="registerTime" value="${userInfo.registerTime}" lay-verify="dasLength" daslength="50" placeholder="请输入注册时间" autocomplete="off" class="layui-input" />
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs2">　</div>
+		</div>
 		<!-- 账号状态 -->
 		<div class="layui-row">
 			<div class="layui-col-xs2">　</div>
